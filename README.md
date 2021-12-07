@@ -1,6 +1,8 @@
 # yahtzees
 A customizable online yahtzee/yams board
 
+Work in progress
+
 Only french language for now
 
 1 to 4 players
@@ -16,3 +18,5 @@ Can be played with virtal dices or real ones
 Top 10 recorded by variant
 
 Custom player's bord color
+
+Published here : http://oliduha.free.fr/yahtzees/travail.htlm
