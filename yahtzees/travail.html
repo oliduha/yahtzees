@@ -1,0 +1,325 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>YAHTZEES - travail</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/jquery-ui.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" data-auto-replace-svg="nest" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="css/custom.css">
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browserupgrade">Vous utilisez un navigateur <strong>obsolète</strong>. Veuillez <a href="https://browsehappy.com/">mettre à jour votre navigateur</a> pour améliorer votre expérience et votre sécurité.</p>
+  <![endif]-->
+
+  <div id="pageheader">
+    <div id="tools">
+      <img id="icontablelayout" src="img/itablelayoutnf.png" title="Changer la disposition du tableau" />
+      <div id="ipcont" title="Démarrer une nouvelle partie">
+        <span id="iconplay">
+          <i class="far fa-play-circle fa-lg"></i>
+        </span>
+      </div>
+    </div>
+    <div id="tstatus" style="display:none">
+      <div id="tturn"></div>
+      <div id="tscore"></div>
+      <div id="ttime"></div>
+    </div>
+    <img id="iconhelp" src="img/help.png" class="cmdicon" title="aide" />
+    <img id="icontop" src="img/topicon.png" class="cmdicon" title="top 10" />
+    <img id="icondices" src="img/diceicon.png" class="cmdicon" title="dés intégrés" />
+    <img id="iconfig" src="img/config.png" class="cmdicon" title="configuration" />
+    <!--<img id="iconuser" src="img/usericon.png" class="cmdicon" title="joueurs" />-->
+  </div>
+  <div style="display:none">
+    <div id="custconfigpanel">
+      <form id="formcustom">
+        <fieldset id="dsvaropt" class="dsfloatl persist">
+          <label for="selvariante">Variante : </label>
+          <select id="selvariante" name="variante" class="variante">
+            <option value="yahtzee">yahtzee</option>
+            <option value="yams">yam's</option>
+            <option value="zazane">zazane</option>
+            <option value="x5">x5</option>
+            <option value="x10">x10</option>
+            <option value="custom" selected="selected">personnalisée</option>
+          </select>
+        </fieldset>
+        <fieldset id="dsnbjopt" class="dsfloatr persist">
+          <label>Nombre de joueurs : </label><br />
+          <input type="radio" id="inprnbj1" name="nbjoueurs" value="1"><label for="inprnbj1"> 1&nbsp;&nbsp;</label>
+          <input type="radio" id="inprnbj2" name="nbjoueurs" value="2" checked="checked"><label for="inprnbj2"> 2&nbsp;&nbsp;</label>
+          <input type="radio" id="inprnbj3" name="nbjoueurs" value="3"><label for="inprnbj3"> 3&nbsp;&nbsp;</label>
+          <input type="radio" id="inprnbj4" name="nbjoueurs" value="4"><label for="inprnbj4"> 4&nbsp;&nbsp;</label>
+        </fieldset>
+          <!--<label for="userealdices">Utiliser les dés intégrés : </label><br />
+          <input type="radio" name="userealdices" value="idices"> oui<br />
+          <input type="radio" name="userealdices" value="rdices" checked="checked"> non, j'ai 5 vrais dés !-->
+        <fieldset id="dsscoretype" class="dsfloatl persist">
+          <label>Type de score : </label><br />
+          <input type="radio" id="inprstyah" name="scoretypeopt" value="styaht" checked><label for="inprstyah"> yahtzee</label><br />
+          <input type="radio" id="inprstyam" name="scoretypeopt" value="styams"><label for="inprstyam"> yam's</label> 
+        </fieldset>
+        <fieldset id="dsprimeyaopt" class="dsfloatl persist">
+          <label>Prime yahtzee : </label><br />
+          <input type="radio" id="inprpya" name="primeyahtzee" value="all"><label for="inprpya"> tous</label><br />
+          <input type="radio" id="inprpyy" name="primeyahtzee" value="yah" checked="checked"><label for="inprpyy"> bien placés uniquement</label>
+        </fieldset>
+        <fieldset id="dslines" class="dsfloatl">
+         <label>Lignes : </label><br />
+          <input type="checkbox" id="inpcblomm" name="linesopt" value="lmm"><label for="inpcblomm"> min & max (max > min)</label><br />
+          <input type="checkbox" id="inpcbloch" name="linesopt" value="lch" checked><label for="inpcbloch"> chance (total sans figure)</label><br />
+          <input type="checkbox" id="inpcblori" name="linesopt" value="lri"><label for="inpcblori"> rigole (carré + 1 dé opposé)</label><br />
+        </fieldset>
+        <fieldset id="dssuites" class="dsfloatl">
+         <label>Suites : </label><br />
+          <input type="radio" id="inprsu1" name="suitesopt" value="su1" checked><label for="inprsu1"> petite 4 dés successifs, grande 5</label><br />
+          <input type="radio" id="inprsu2" name="suitesopt" value="su2"><label for="inprsu2"> petite [1 à 5], grande [2 à 6]</label><br />
+        </fieldset>
+        <fieldset>
+          <div>Colonnes : </div>
+          <div id="preview"><table id="tableprev"><caption id="prevcaption">Ajouter au moins 1 colonne</caption><tr id="lprev"></tr></table></div>
+          <fieldset id="dscolstype" class="dsfloatl">
+            <label>Type : </label><br />
+            <input type="radio" id="inprctl" name="coltype" value="L" checked><label for="inprctl"> libre</label><br />
+            <input type="radio" id="inprctd" name="coltype" value="D"><label for="inprctd"> descendant</label><br />
+            <input type="radio" id="inprctm" name="coltype" value="M"><label for="inprctm"> montant</label><br />
+          </fieldset>
+          <fieldset id="dscolopt" class="dsfloatl">
+            <label>Options : </label><br />
+            <span id="multicolnb">
+              <label for="multicolnbopt" title="compris entre 1 et 100">coefficient : x </label>
+              <input type="number" id="multicolnbopt" name="multicolnbopt" min="1" max="100" step="1" value="1" title="compris entre 1 et 100" />
+            </span><br />
+            <input type="checkbox" id="inpcbcoa" name="colopt" class="radiocheckbox" value="A"><label for="inpcbcoa"> annoncé</label><br />
+            <input type="checkbox" id="inpcbcos" name="colopt" class="radiocheckbox" value="S"><label for="inpcbcos"> sec</label><br />
+          </fieldset>
+          <button type="button" id="addcol" class="btncolopt"><p>+</p></button>
+          <button type="button" id="supprcol" class="btncolopt"><p>-</p></button>
+        </fieldset>
+        <div id="custconfbuttons">
+          <button type="button" id="savecustconfig" class="btnscustconfig"><img src="img/save.png" title="Enregistrer"><p>Enregistrer</p></button>
+          <button type="reset" id="resetcustconfig" class="btnscustconfig"><img src="img/reset.png" title="Réinitialiser"><p>Réinitialiser</p></button>
+          <button type="button" id="cancelcustconfig" class="btnscustconfig"><img src="img/cancel.png"title="Annuler"><p>Annuler</p></button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div>
+    <div id="userpanel" style="display:none">
+      <div class="userdiv">Connecté :
+        <div id="jcpanel">
+          <div id="jc1" class="jlabel jc">
+            <div class="jinner">
+              <div class="jfront">Joueur 1</div>
+              <div class="jback">
+                <button title="modifier"><img src="img/useredit.png" /></button>
+                <button title="retirer"><img src="img/down.png" /></button>
+              </div>
+            </div>
+          </div>
+          <div id="jc2" class="jlabel jc">
+            <div class="jinner">
+              <div class="jfront">Joueur 2</div>
+              <div class="jback">
+                <button title="modifier"><img src="img/useredit.png" /></button>
+                <button title="retirer"><img src="img/down.png" /></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="userdiv">Enregistré : 
+        <div class="userbtnbar">
+          <button id="btnadduser" class="userbtn">Ajouter</button>
+          <!--<button id="btnmoduser" class="userbtn" disabled="disabled">Modifier</button>-->
+        </div>
+        <div id="jepanel">
+          <div id="je1" class="jlabel je">
+            <div class="jinner">
+              <div class="jfront">Joueur 1</div>
+              <div class="jback">
+                <button title="ajouter"><img src="img/diceicon.png" /></button>
+                <button title="modifier"><img src="img/useredit.png" /></button>
+              </div>
+            </div>
+          </div>
+          <div id="je2" class="jlabel je">
+            <div class="jinner">
+              <div class="jfront">Joueur 2</div>
+              <div class="jback">
+                <button title="ajouter"><img src="img/diceicon.png" /></button>
+                <button title="modifier"><img src="img/useredit.png" /></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div id="edituserpanel" style="display:none">
+      <form id="usereditform">
+        <fieldset>
+          <div>
+            <label for="jnomedit" class="dsfloatl">Nom (pseudo) : </label>
+            <input id="jnomedit" class="dsfloatr" name="jnomedit" type="text" />
+          </div>
+          <div>
+            <label for="jpassedit" class="dsfloatl">mot de passe : </label>
+            <input id="jpassedit" class="dsfloatr" name="jpassedit" type="password" />
+          </div>
+          <div>
+            <label for="jpassveditv" class="dsfloatl">mot de passe (vérif) : </label>
+            <input id="jpasseditv" class="dsfloatr" name="jpasseditv" type="password" />
+          </div>
+          <div>
+            <label for="jmailedit" class="dsfloatl">Mail : </label>
+            <input id="jmailedit" class="dsfloatr" name="jmailedit" type="email" />
+          </div>
+          <div>
+            <input type="radio" id="jgendern" name="jgenderedit" value="n" checked>
+            <label for="jgendern"><i class="fas fa-genderless"></i></label>&nbsp;
+            <input type="radio" id="jgenderf" name="jgenderedit" value="f">
+            <label for="jgenderf"><i class="fas fa-venus"></i></label>&nbsp;
+            <input type="radio" id="jgenderm" name="jgenderedit" value="m">
+            <label for="jgenderm"><i class="fas fa-mars"></i></label>&nbsp;
+            <input type="radio" id="jgendert" name="jgenderedit" value="t">
+            <label for="jgendert"><i class="fas fa-transgender"></i></label>
+          </div>
+          <!--<button type="submit" style="display:none">submit</button>-->
+        </fieldset>
+      </form>
+    </div>
+  </div>
+  <div id="container">
+    <div id="table_container"><i class="fas fa-spinner fa-pulse fa-4x iblue" style="margin:10px 20px"></i></span></div>
+  </div>
+  <div id="dices-container">
+    <div id="dices" class="dices" style="display:none">
+      <div id="stage">
+        <div id="dice1" class="dice"></div>
+        <div id="dice2" class="dice"></div>
+        <div id="dice3" class="dice"></div>
+        <div id="dice4" class="dice"></div>
+        <div id="dice5" class="dice"></div>
+      </div>
+      <input type="hidden" id="res1" class="res"></input>
+      <input type="hidden" id="res2" class="res"></input>
+      <input type="hidden" id="res3" class="res"></input>
+      <input type="hidden" id="res4" class="res"></input>
+      <input type="hidden" id="res5" class="res"></input>
+      <div id="result">
+        <div id="totalroll"></div>
+        <div id="yahtzeeroll" class="tips"></div>
+        <div id="riroll" class="tips"></div>
+        <div id="gsroll" class="tips"></div>
+        <div id="psroll" class="tips"></div>
+        <div id="fullroll" class="tips"></div>
+        <div id="caroll" class="tips"></div>
+        <div id="brroll" class="tips"></div>
+      </div>
+      <br />
+      <button id="btnroll"><div id="btnrolljnom"></div><div id="btnrollnum">Lancé 1</div></button>
+    </div>
+  </div>
+  <div>
+    <div id="top10panel" style="display:none"></div>
+  </div>
+  <div>
+    <div id="helppanel" style="display:none"></div>
+  </div>
+  <div id="saisieh" style="display:none">
+    <button type="button" id="bhsh" class="bxhx">X</button>
+    <br />
+    <button type="button" id="x0" class="bxh">x0</button>
+    <button type="button" id="x1" class="bxh">x1</button>
+    <button type="button" id="x2" class="bxh">x2</button>
+    <br />
+    <button type="button" id="x3" class="bxh">x3</button>
+    <button type="button" id="x4" class="bxh">x4</button>
+    <button type="button" id="x5" class="bxh">x5</button>
+    <br />
+    <button type="button" id="effh" class="beffh">suppr</button>
+  </div>
+  <div id="saisieb" style="display:none">
+    <button type="button" id="bhsb" class="bsbx">X</button>
+    <button type="button" id="effb" class="beffb">suppr</button>
+    <button type="button" id="bby" class="bsby">Y</button>
+    <br />
+    <button type="button" id="b0" class="bsb">0</button>
+    <button type="button" id="b5" class="bsb yahtzeeformat">5</button>
+    <button type="button" id="b6" class="bsb">6</button>
+    <button type="button" id="b7" class="bsb">7</button>
+    <button type="button" id="b8" class="bsb">8</button>
+    <button type="button" id="b9" class="bsb">9</button>
+    <button type="button" id="b10" class="bsb">10</button>
+    <button type="button" id="b11" class="bsb">11</button>
+    <button type="button" id="b12" class="bsb">12</button>
+    <br />
+    <button type="button" id="b13" class="bsb">13</button>
+    <button type="button" id="b14" class="bsb">14</button>
+    <button type="button" id="b15" class="bsb">15</button>
+    <button type="button" id="b16" class="bsb">16</button>
+    <button type="button" id="b17" class="bsb">17</button>
+    <button type="button" id="b18" class="bsb">18</button>
+    <button type="button" id="b19" class="bsb">19</button>
+    <button type="button" id="b20" class="bsb">20</button>
+    <button type="button" id="b21" class="bsb">21</button>
+    <br />
+    <button type="button" id="b22" class="bsb">22</button>
+    <button type="button" id="b23" class="bsb">23</button>
+    <button type="button" id="b24" class="bsb">24</button>
+    <button type="button" id="b25" class="bsb">25</button>
+    <button type="button" id="b26" class="bsb">26</button>
+    <button type="button" id="b27" class="bsb">27</button>
+    <button type="button" id="b28" class="bsb">28</button>
+    <button type="button" id="b29" class="bsb">29</button>
+    <button type="button" id="b30" class="bsb yahtzeeformat">30</button>
+  </div>
+  <div id="saisiebs" style="display:none">
+    <button type="button" id="bhsbs" class="bsbx">X</button>
+    <button type="button" id="effbs" class="beffbs">sup</button>
+    <br />
+    <button type="button" id="bs0" class="bsb">0</button>
+    <button type="button" id="bspe" class="bsb">?</button>
+    <button type="button" id="bspeya" class="bsb bsbsy yahtzeeformat" style="display:none">25</button>
+  </div>
+  <div>
+    <div id="winpanel" style="display:none"></div>
+  </div>
+
+  <!--
+    <div class="dicenum dice1"></div>
+    <div class="dicenum dice2"></div>
+    <div class="dicenum dice3"></div>
+    <div class="dicenum dice4"></div>
+    <div class="dicenum dice5"></div>
+    <div class="dicenum dice6"></div>
+  -->
+
+  <script src="js/vendor/modernizr-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+  <script src="js/jquery.ui.touch-punch.min.js"></script>
+  <script src="js/plugins.js"></script>
+  <script src="js/jquery.dice.js"></script>
+  <script src="js/js.storage.min.js"></script>
+  <script src="js/shortcut.js"></script>
+  <script src="js/custom.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,491 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>YAHTZEES - zazane</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+  <!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <!--<h2 id="titre">Yahtzees !</h2>-->
+  <img id="iconfig" src="img/config.png" /><br />
+  <div id="configpanel" style="display:none">
+    <!-- <form id="fconfig">
+      <fieldset id="dsdices"> -->
+        <label for "variante">Variante : </label>
+        <select id="selvariante" name="variante" class="config">
+          <option value="yathzee">yahtzee classique</option>
+          <option value="yams">yam's classique</option>
+          <option  value="zazane" selected="selected">zazane</option>
+          <option value="x2">x2</option>
+          <option value="x3">x3</option>
+          <option value="x4">x4</option>
+          <option value="x5">x5</option>
+          <option value="x6">x6</option>
+          <option value="x7">x7</option>
+          <option value="x8">x8</option>
+          <option value="x9">x9</option>
+          <option value="x10">x10</option>
+        </select>
+				<hr />
+        <label for "nbjoueurs">Nombre de joueurs : </label><br />
+        <input type="radio" name="nbjoueurs" value="1"> 1<br />
+        <input type="radio" name="nbjoueurs" value="2" checked="checked"> 2<br />
+        <input type="radio" name="nbjoueurs" value="3"> 3<br />
+        <input type="radio" name="nbjoueurs" value="4"> 4
+				<hr />
+        <label for "userealdices">Utiliser les dés intégrés : </label><br />
+        <input type="radio" name="userealdices" value="idices"> oui<br />
+        <input type="radio" name="userealdices" value="rdices" checked="checked"> non, j'ai 5 vrais dés !
+				<hr />
+        <label for "primeyahtzee">Prime yahtzee : </label><br />
+        <input type="radio" name="primeyahtzee" value="all"> tous<br />
+        <input type="radio" name="primeyahtzee" value="yah" checked="checked"> bien placés uniquement
+				<hr />
+      <!-- </fieldset> -->
+      <button id="saveconfig"><img src="img/save.png" width="16px" height="16px" /><button>
+    <!-- </form> -->
+  </div>
+  <div id="table_container">
+      <table>
+        <thead>
+          <tr>
+            <th id="j1nom" class="edit jnom" colspan="7">Joueur 1</th>
+            <th id="j2nom" class="edit jnom" colspan="7">Joueur 2</th>
+          </tr>
+          <tr>
+            <th class="head"></th>
+            <th>Libre</th>
+            <th>Libre</th>
+            <th title="Colonne descendante&#10;Cette colonne doit être remplie en suivant l'ordre descendant&#10;(du 1 à la chance)"><img src="img/down.png" /></th>
+            <th title="Colonne montante&#10;Cette colonne doit être remplie en suivant l'ordre montant&#10;(de la chance au 1)"><img src="img/up.png" /></th>
+            <th title="Colonne annoncé&#10;Cette colonne doit être remplie en annonçant la cible dès le 1er lancé effectué&#10;(cette cible ne pourra plus changer pour ce coup)">Annoncé</th>
+            <th>Total</th>
+            <th class="head"></th>
+            <th>Libre</th>
+            <th>Libre</th>
+            <th title="Colonne descendante&#10;Cette colonne doit être remplie en suivant l'ordre descendant&#10;(du 1 à la chance)"><img src="img/down.png" /></th>
+            <th title="Colonne montante&#10;Cette colonne doit être remplie en suivant l'ordre montant&#10;(de la chance au 1)"><img src="img/up.png" /></th>
+            <th title="Colonne annoncé&#10;Cette colonne doit être remplie en annonçant la cible dès le 1er lancé effectué&#10;(cette cible ne pourra plus changer pour ce coup)">Annoncé</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th id="t_l1">1</th>
+            <td id="j1_l1_cl1" class="ch1_l1 l1 j1 haut"></td>
+            <td id="j1_l1_cl2" class="ch1_l2 l1 j1 haut"></td>
+            <td id="j1_l1_cd" class="ch1_d l1 j1 haut"></td>
+            <td id="j1_l1_cm" class="ch1_m l1 j1 haut"></td>
+            <td id="j1_l1_ca" class="ch1_a l1 j1 haut"></td>
+            <th id="j1_l1_ct" class="ch1_t l1 j1 haut">0</th>
+            <th>1</th>
+            <td id="j2_l1_cl1" class="ch2_l1 l1 j2 haut"></td>
+            <td id="j2_l1_cl2" class="ch2_l2 l1 j2 haut"></td>
+            <td id="j2_l1_cd" class="ch2_d l1 j2 haut"></td>
+            <td id="j2_l1_cm" class="ch2_m l1 j2 haut"></td>
+            <td id="j2_l1_ca" class="ch2_a l1 j2 haut"></td>
+            <th id="j2_l1_ct" class="ch2_t l1 j2 haut">0</th>
+          </tr>
+          <tr>
+            <th id="t_l2">2</th>
+            <td id="j1_l2_cl1" class="ch1_l1 l2 j1 haut"></td>
+            <td id="j1_l2_cl2" class="ch1_l2 l2 j1 haut"></td>
+            <td id="j1_l2_cd" class="ch1_d l2 j1 haut"></td>
+            <td id="j1_l2_cm" class="ch1_m l2 j1 haut"></td>
+            <td id="j1_l2_ca" class="ch1_a l2 j1 haut"></td>
+            <th id="j1_l2_ct" class="ch1_t l2 j1 haut">0</th>
+            <th>2</th>
+            <td id="j2_l2_cl1" class="ch2_l1 l2 j2 haut"></td>
+            <td id="j2_l2_cl2" class="ch2_l2 l2 j2 haut"></td>
+            <td id="j2_l2_cd" class="ch2_d l2 j2 haut"></td>
+            <td id="j2_l2_cm" class="ch2_m l2 j2 haut"></td>
+            <td id="j2_l2_ca" class="ch2_a l2 j2 haut"></td>
+            <th id="j2_l2_ct" class="ch2_t l2 j2 haut">0</th>
+          </tr>
+          <tr>
+            <th id="t_l3">3</th>
+            <td id="j1_l3_cl1" class="ch1_l1 l3 j1 haut"></td>
+            <td id="j1_l3_cl2" class="ch1_l2 l3 j1 haut"></td>
+            <td id="j1_l3_cd" class="ch1_d l3 j1 haut"></td>
+            <td id="j1_l3_cm" class="ch1_m l3 j1 haut"></td>
+            <td id="j1_l3_ca" class="ch1_a l3 j1 haut"></td>
+            <th id="j1_l3_ct" class="ch1_t l3 j1 haut">0</th>
+            <th>3</th>
+            <td id="j2_l3_cl1" class="ch2_l1 l3 j2 haut"></td>
+            <td id="j2_l3_cl2" class="ch2_l2 l3 j2 haut"></td>
+            <td id="j2_l3_cd" class="ch2_d l3 j2 haut"></td>
+            <td id="j2_l3_cm" class="ch2_m l3 j2 haut"></td>
+            <td id="j2_l3_ca" class="ch2_a l3 j2 haut"></td>
+            <th id="j2_l3_ct" class="ch2_t l3 j2 haut">0</th>
+          </tr>
+          <tr>
+            <th id="t_l4">4</th>
+            <td id="j1_l4_cl1" class="ch1_l1 l4 j1 haut"></td>
+            <td id="j1_l4_cl2" class="ch1_l2 l4 j1 haut"></td>
+            <td id="j1_l4_cd" class="ch1_d l4 j1 haut"></td>
+            <td id="j1_l4_cm" class="ch1_m l4 j1 haut"></td>
+            <td id="j1_l4_ca" class="ch1_a l4 j1 haut"></td>
+            <th id="j1_l4_ct" class="ch1_t l4 j1 haut">0</th>
+            <th>4</th>
+            <td id="j2_l4_cl1" class="ch2_l1 l4 j2 haut"></td>
+            <td id="j2_l4_cl2" class="ch2_l2 l4 j2 haut"></td>
+            <td id="j2_l4_cd" class="ch2_d l4 j2 haut"></td>
+            <td id="j2_l4_cm" class="ch2_m l4 j2 haut"></td>
+            <td id="j2_l4_ca" class="ch2_a l4 j2 haut"></td>
+            <th id="j2_l4_ct" class="ch2_t l4 j2 haut">0</th>
+          </tr>
+          <tr>
+            <th id="t_l5">5</th>
+            <td id="j1_l5_cl1" class="ch1_l1 l5 j1 haut"></td>
+            <td id="j1_l5_cl2" class="ch1_l2 l5 j1 haut"></td>
+            <td id="j1_l5_cd" class="ch1_d l5 j1 haut"></td>
+            <td id="j1_l5_cm" class="ch1_m l5 j1 haut"></td>
+            <td id="j1_l5_ca" class="ch1_a l5 j1 haut"></td>
+            <th id="j1_l5_ct" class="ch1_t l5 j1 haut">0</th>
+            <th>5</th>
+            <td id="j2_l5_cl1" class="ch2_l1 l5 j2 haut"></td>
+            <td id="j2_l5_cl2" class="ch2_l2 l5 j2 haut"></td>
+            <td id="j2_l5_cd" class="ch2_d l5 j2 haut"></td>
+            <td id="j2_l5_cm" class="ch2_m l5 j2 haut"></td>
+            <td id="j2_l5_ca" class="ch2_a l5 j2 haut"></td>
+            <th id="j2_l5_ct" class="ch2_t l5 j2 haut">0</th>
+          </tr>
+          <tr>
+            <th id="t_l6">6</th>
+            <td id="j1_l6_cl1" class="ch1_l1 l6 j1 haut"></td>
+            <td id="j1_l6_cl2" class="ch1_l2 l6 j1 haut"></td>
+            <td id="j1_l6_cd" class="ch1_d l6 j1 haut"></td>
+            <td id="j1_l6_cm" class="ch1_m l6 j1 haut"></td>
+            <td id="j1_l6_ca" class="ch1_a l6 j1 haut"></td>
+            <th id="j1_l6_ct" class="ch1_t l6 j1 haut">0</th>
+            <th>6</th>
+            <td id="j2_l6_cl1" class="ch2_l1 l6 j2 haut"></td>
+            <td id="j2_l6_cl2" class="ch2_l2 l6 j2 haut"></td>
+            <td id="j2_l6_cd" class="ch2_d l6 j2 haut"></td>
+            <td id="j2_l6_cm" class="ch2_m l6 j2 haut"></td>
+            <td id="j2_l6_ca" class="ch2_a l6 j2 haut"></td>
+            <th id="j2_l6_ct" class="ch2_t l6 j2 haut">0</th>
+          </tr>
+          <tr>
+            <th>Sous-total</th>
+            <th id="j1_lst_cl1" class="lst j1">0</th>
+            <th id="j1_lst_cl2" class="lst j1">0</th>
+            <th id="j1_lst_cd" class="lst j1">0</th>
+            <th id="j1_lst_cm" class="lst j1">0</th>
+            <th id="j1_lst_ca" class="lst j1">0</th>
+            <th id="j1_lst_ct" class="j1">0</th>
+            <th>Sous-total</th>
+            <th id="j2_lst_cl1" class="lst j2">0</th>
+            <th id="j2_lst_cl2" class="lst j2">0</th>
+            <th id="j2_lst_cd" class="lst j2">0</th>
+            <th id="j2_lst_cm" class="lst j2">0</th>
+            <th id="j2_lst_ca" class="lst j2">0</th>
+            <th id="j2_lst_ct" class="j2">0</th>
+          </tr>
+          <tr>
+            <th title="Si total haut >= 63 : 35 points">Prime</th>
+            <th id="j1_lp_cl1" class="lp j1">0</th>
+            <th id="j1_lp_cl2" class="lp j1">0</th>
+            <th id="j1_lp_cd" class="lp j1">0</th>
+            <th id="j1_lp_cm" class="lp j1">0</th>
+            <th id="j1_lp_ca" class="lp j1">0</th>
+            <th id="j1_lp_ct" class="j1">0</th>
+            <th title="Si total haut >= 63 : 35 points">Prime</th>
+            <th id="j2_lp_cl1" class="lp j2">0</th>
+            <th id="j2_lp_cl2" class="lp j2">0</th>
+            <th id="j2_lp_cd" class="lp j2">0</th>
+            <th id="j2_lp_cm" class="lp j2">0</th>
+            <th id="j2_lp_ca" class="lp j2">0</th>
+            <th id="j2_lp_ct" class="j2">0</th>
+          </tr>
+          <tr>
+            <th>Total haut</th>
+            <th id="j1_lth_cl1" class="lth j1">0</th>
+            <th id="j1_lth_cl2" class="lth j1">0</th>
+            <th id="j1_lth_cd" class="lth j1">0</th>
+            <th id="j1_lth_cm" class="lth j1">0</th>
+            <th id="j1_lth_ca" class="lth j1">0</th>
+            <th id="j1_lth_ct" class="j1">0</th>
+            <th>Total haut</th>
+            <th id="j2_lth_cl1" class="lth j2">0</th>
+            <th id="j2_lth_cl2" class="lth j2">0</th>
+            <th id="j2_lth_cd" class="lth j2">0</th>
+            <th id="j2_lth_cm" class="lth j2">0</th>
+            <th id="j2_lth_ca" class="lth j2">0</th>
+            <th id="j2_lth_ct" class="j2">0</th>
+          </tr>
+          <tr>
+            <th>Brelan</th>
+            <td id="j1_lbr_cl1" class="cb1_l1 lbr j1 bas"></td>
+            <td id="j1_lbr_cl2" class="cb1_l2 lbr j1 bas"></td>
+            <td id="j1_lbr_cd" class="cb1_d lbr j1 bas"></td>
+            <td id="j1_lbr_cm" class="cb1_m lbr j1 bas"></td>
+            <td id="j1_lbr_ca" class="cb1_a lbr j1 bas"></td>
+            <th id="j1_lbr_ct" class="cb1_t lbr j1 bas">0</th>
+            <th>Brelan</th>
+            <td id="j2_lbr_cl1" class="cb2_l1 lbr j2 bas"></td>
+            <td id="j2_lbr_cl2" class="cb2_l2 lbr j2 bas"></td>
+            <td id="j2_lbr_cd" class="cb2_d lbr j2 bas"></td>
+            <td id="j2_lbr_cm" class="cb2_m lbr j2 bas"></td>
+            <td id="j2_lbr_ca" class="cb2_a lbr j2 bas"></td>
+            <th id="j2_lbr_ct" class="cb2_t lbr j2 bas">0</th>
+          </tr>
+          <tr>
+            <th>Carré</th>
+            <td id="j1_lca_cl1" class="cb1_l1 lca j1 bas"></td>
+            <td id="j1_lca_cl2" class="cb1_l2 lca j1 bas"></td>
+            <td id="j1_lca_cd" class="cb1_d lca j1 bas"></td>
+            <td id="j1_lca_cm" class="cb1_m lca j1 bas"></td>
+            <td id="j1_lca_ca" class="cb1_a lca j1 bas"></td>
+            <th id="j1_lca_ct" class="cb1_t lca j1 bas">0</th>
+            <th>Carré</th>
+            <td id="j2_lca_cl1" class="cb2_l1 lca j2 bas"></td>
+            <td id="j2_lca_cl2" class="cb2_l2 lca j2 bas"></td>
+            <td id="j2_lca_cd" class="cb2_d lca j2 bas"></td>
+            <td id="j2_lca_cm" class="cb2_m lca j2 bas"></td>
+            <td id="j2_lca_ca" class="cb2_a lca j2 bas"></td>
+            <th id="j2_lca_ct" class="cb2_t lca j2 bas">0</th>
+          </tr>
+          <tr>
+            <th>Full</th>
+            <td id="j1_lfu_cl1" class="cb1_l1 lfu j1"></td>
+            <td id="j1_lfu_cl2" class="cb1_l2 lfu j1"></td>
+            <td id="j1_lfu_cd" class="cb1_d lfu j1"></td>
+            <td id="j1_lfu_cm" class="cb1_m lfu j1"></td>
+            <td id="j1_lfu_ca" class="cb1_a lfu j1"></td>
+            <th id="j1_lfu_ct" class="cb1_t lfu j1">0</th>
+            <th>Full</th>
+            <td id="j2_lfu_cl1" class="cb2_l1 lfu j2"></td>
+            <td id="j2_lfu_cl2" class="cb2_l2 lfu j2"></td>
+            <td id="j2_lfu_cd" class="cb2_d lfu j2"></td>
+            <td id="j2_lfu_cm" class="cb2_m lfu j2"></td>
+            <td id="j2_lfu_ca" class="cb2_a lfu j2"></td>
+            <th id="j2_lfu_ct" class="cb2_t lfu j2">0</th>
+          </tr>
+          <tr>
+            <th>Petite suite</th>
+            <td id="j1_lps_cl1" class="cb1_l1 lps j1"></td>
+            <td id="j1_lps_cl2" class="cb1_l2 lps j1"></td>
+            <td id="j1_lps_cd" class="cb1_d lps j1"></td>
+            <td id="j1_lps_cm" class="cb1_m lps j1"></td>
+            <td id="j1_lps_ca" class="cb1_a lps j1"></td>
+            <th id="j1_lps_ct" class="cb1_t lps j1">0</th>
+            <th>Petite suite</th>
+            <td id="j2_lps_cl1" class="cb2_l1 lps j2"></td>
+            <td id="j2_lps_cl2" class="cb2_l2 lps j2"></td>
+            <td id="j2_lps_cd" class="cb2_d lps j2"></td>
+            <td id="j2_lps_cm" class="cb2_m lps j2"></td>
+            <td id="j2_lps_ca" class="cb2_a lps j2"></td>
+            <th id="j2_lps_ct" class="cb2_t lps j2">0</th>
+          </tr>
+          <tr>
+            <th>Grande suite</th>
+            <td id="j1_lgs_cl1" class="cb1_l1 lgs j1"></td>
+            <td id="j1_lgs_cl2" class="cb1_l2 lgs j1"></td>
+            <td id="j1_lgs_cd" class="cb1_d lgs j1"></td>
+            <td id="j1_lgs_cm" class="cb1_m lgs j1"></td>
+            <td id="j1_lgs_ca" class="cb1_a lgs j1"></td>
+            <th id="j1_lgs_ct" class="cb1_t lgs j1">0</th>
+            <th>Grande suite</th>
+            <td id="j2_lgs_cl1" class="cb2_l1 lgs j2"></td>
+            <td id="j2_lgs_cl2" class="cb2_l2 lgs j2"></td>
+            <td id="j2_lgs_cd" class="cb2_d lgs j2"></td>
+            <td id="j2_lgs_cm" class="cb2_m lgs j2"></td>
+            <td id="j2_lgs_ca" class="cb2_a lgs j2"></td>
+            <th id="j2_lgs_ct" class="cb2_t lgs j2">0</th>
+          </tr>
+          <tr>
+            <th>Yahtzee</th>
+            <td id="j1_lya_cl1" class="cb1_l1 lya j1"></td>
+            <td id="j1_lya_cl2" class="cb1_l2 lya j1"></td>
+            <td id="j1_lya_cd" class="cb1_d lya j1"></td>
+            <td id="j1_lya_cm" class="cb1_m lya j1"></td>
+            <td id="j1_lya_ca" class="cb1_a lya j1"></td>
+            <th id="j1_lya_ct" class="cb1_t lya j1">0</th>
+            <th>Yahtzee</th>
+            <td id="j2_lya_cl1" class="cb2_l1 lya j2"></td>
+            <td id="j2_lya_cl2" class="cb2_l2 lya j2"></td>
+            <td id="j2_lya_cd" class="cb2_d lya j2"></td>
+            <td id="j2_lya_cm" class="cb2_m lya j2"></td>
+            <td id="j2_lya_ca" class="cb2_a lya j2"></td>
+            <th id="j2_lya_ct" class="cb2_t lya j2">0</th>
+          </tr>
+          <tr>
+            <th>Chance</th>
+            <td id="j1_lch_cl1" class="cb1_l1 lch j1 bas"></td>
+            <td id="j1_lch_cl2" class="cb1_l2 lch j1 bas"></td>
+            <td id="j1_lch_cd" class="cb1_d lch j1 bas"></td>
+            <td id="j1_lch_cm" class="cb1_m lch j1 bas"></td>
+            <td id="j1_lch_ca" class="cb1_a lch j1 bas"></td>
+            <th id="j1_lch_ct" class="cb1_t lch j1 bas">0</th>
+            <th>Chance</th>
+            <td id="j2_lch_cl1" class="cb2_l1 lch j2 bas"></td>
+            <td id="j2_lch_cl2" class="cb2_l2 lch j2 bas"></td>
+            <td id="j2_lch_cd" class="cb2_d lch j2 bas"></td>
+            <td id="j2_lch_cm" class="cb2_m lch j2 bas"></td>
+            <td id="j2_lch_ca" class="cb2_a lch j2 bas"></td>
+            <th id="j2_lch_ct" class="cb2_t lch j2 bas">0</th>
+          </tr>
+          <tr>
+            <th>Total bas</th>
+            <th id="j1_ltb_cl1" class="ltb j1">0</th>
+            <th id="j1_ltb_cl2" class="ltb j1">0</th>
+            <th id="j1_ltb_cd" class="ltb j1">0</th>
+            <th id="j1_ltb_cm" class="ltb j1">0</th>
+            <th id="j1_ltb_ca" class="ltb j1">0</th>
+            <th id="j1_ltb_ct" class="j1">0</th>
+            <th>Total bas</th>
+            <th id="j2_ltb_cl1" class="ltb j2">0</th>
+            <th id="j2_ltb_cl2" class="ltb j2">0</th>
+            <th id="j2_ltb_cd" class="ltb j2">0</th>
+            <th id="j2_ltb_cm" class="ltb j2">0</th>
+            <th id="j2_ltb_ca" class="ltb j2">0</th>
+            <th id="j2_ltb_ct" class="j2">0</th>
+          </tr>
+          <tr>
+            <th>Bonus</th>
+            <th id="j1_lby_cl1" class="lby j1">0</th>
+            <th id="j1_lby_cl2" class="lby j1">0</th>
+            <th id="j1_lby_cd" class="lby j1">0</th>
+            <th id="j1_lby_cm" class="lby j1">0</th>
+            <th id="j1_lby_ca" class="lby j1">0</th>
+            <th id="j1_lby_ct" class="j1">0</th>
+            <th>Bonus</th>
+            <th id="j2_lby_cl1" class="lby j2">0</th>
+            <th id="j2_lby_cl2" class="lby j2">0</th>
+            <th id="j2_lby_cd" class="lby j2">0</th>
+            <th id="j2_lby_cm" class="lby j2">0</th>
+            <th id="j2_lby_ca" class="lby j2">0</th>
+            <th id="j2_lby_ct" class="j2">0</th>
+          </tr>
+          <tr>
+            <th class="total">TOTAL</th>
+            <th id="j1_lt_cl1" class="lt j1">0</th>
+            <th id="j1_lt_cl2" class="lt j1">0</th>
+            <th id="j1_lt_cd" class="lt j1">0</th>
+            <th id="j1_lt_cm" class="lt j1">0</th>
+            <th id="j1_lt_ca" class="lt j1">0</th>
+            <th id="j1_lt_ct" class="j1">0</th>
+            <th class="total">TOTAL</th>
+            <th id="j2_lt_cl1" class="lt j2">0</th>
+            <th id="j2_lt_cl2" class="lt j2">0</th>
+            <th id="j2_lt_cd" class="lt j2">0</th>
+            <th id="j2_lt_cm" class="lt j2">0</th>
+            <th id="j2_lt_ca" class="lt j2">0</th>
+            <th id="j2_lt_ct" class="j2">0</th>
+          </tr>
+          <tr>
+            <th>Coups restant</th><th id="j1_cr" colspan="6" class="cr"></th>
+            <th>Coups restant</th><th id="j2_cr" colspan="6" class="cr"></th>
+          </tr>
+          <tr>
+            <td id="dices" colspan="14" class="dices">
+              <div id="result">
+    						<div id="totalroll"></div>
+    						<div id="yahtzeeroll" class="tips"></div>
+    						<div id="gsroll" class="tips"></div>
+    						<div id="psroll" class="tips"></div>
+    						<div id="fullroll" class="tips"></div>
+    						<div id="caroll" class="tips"></div>
+    						<div id="brroll" class="tips"></div>
+    					</div>
+              <div id="dice1" class="dice"></div>
+              <div id="dice2" class="dice"></div>
+              <div id="dice3" class="dice"></div>
+              <div id="dice4" class="dice"></div>
+              <div id="dice5" class="dice"></div>
+              <input type="text" id="res1" class="res"></input>
+              <input type="text" id="res2" class="res"></input>
+              <input type="text" id="res3" class="res"></input>
+              <input type="text" id="res4" class="res"></input>
+              <input type="text" id="res5" class="res"></input>
+              <br />
+              <button id="btnroll"><div id="btnrolljnom"></div><div id="btnrollnum">Lancé 1</div></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+
+  <div id="saisieh" style="display:none">
+    <button type="button" id="x0" class="bxh">x0</button>
+    <button type="button" id="x1" class="bxh">x1</button>
+    <button type="button" id="x2" class="bxh">x2</button>
+    <br />
+    <button type="button" id="x3" class="bxh">x3</button>
+    <button type="button" id="x4" class="bxh">x4</button>
+    <button type="button" id="x5" class="bxh">x5</button>
+    <br />
+    <button type="button" id="effh" class="beffh">suppr</button>
+  </div>
+
+  <div id="saisieb" style="display:none">
+    <button type="button" id="b0" class="bsb">0</button>
+    <button type="button" id="b5" class="bsb">5</button>
+    <button type="button" id="b6" class="bsb">6</button>
+    <button type="button" id="b7" class="bsb">7</button>
+    <button type="button" id="b8" class="bsb">8</button>
+    <button type="button" id="b9" class="bsb">9</button>
+    <button type="button" id="b10" class="bsb">10</button>
+    <button type="button" id="b11" class="bsb">11</button>
+    <button type="button" id="b12" class="bsb">12</button>
+    <br />
+    <button type="button" id="b13" class="bsb">13</button>
+    <button type="button" id="b14" class="bsb">14</button>
+    <button type="button" id="b15" class="bsb">15</button>
+    <button type="button" id="b16" class="bsb">16</button>
+    <button type="button" id="b17" class="bsb">17</button>
+    <button type="button" id="b18" class="bsb">18</button>
+    <button type="button" id="b19" class="bsb">19</button>
+    <button type="button" id="b20" class="bsb">20</button>
+    <button type="button" id="b21" class="bsb">21</button>
+    <br />
+    <button type="button" id="b22" class="bsb">22</button>
+    <button type="button" id="b23" class="bsb">23</button>
+    <button type="button" id="b24" class="bsb">24</button>
+    <button type="button" id="b25" class="bsb">25</button>
+    <button type="button" id="b26" class="bsb">26</button>
+    <button type="button" id="b27" class="bsb">27</button>
+    <button type="button" id="b28" class="bsb">28</button>
+    <button type="button" id="b29" class="bsb">29</button>
+    <button type="button" id="b30" class="bsb">30</button>
+    <br />
+    <button type="button" id="effb" class="beffb">suppr</button>
+  </div>
+  <div id="dice1"></div>
+  <div id="current_number"></div>
+
+  <script src="js/vendor/modernizr-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+  <script src="js/plugins.js"></script>
+  <script src="js/jquery.dice.js"></script>
+  <script src="js/js.storage.min.js"></script>
+  <script src="js/shortcut.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID.
+  <script>
+    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto'); ga('send', 'pageview')
+  </script>
+  <script src="https://www.google-analytics.com/analytics.js" async defer></script>-->
+</body>
+
+</html>
