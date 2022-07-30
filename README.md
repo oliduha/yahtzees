@@ -19,4 +19,4 @@ Top 10 recorded by variant
 
 Custom player's bord color
 
-Published here : http://oliduha.free.fr/yahtzees/travail.htlm
+Published here : http://oliduha.free.fr/yahtzees/yahtzees.html
