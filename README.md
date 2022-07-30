@@ -17,6 +17,6 @@ Can be played with virtal dices or real ones
 
 Top 10 recorded by variant
 
-Custom player's bord color
+Custom player's board color
 
 Published here : http://oliduha.free.fr/yahtzees/yahtzees.html
