@@ -1,0 +1,45 @@
+<body>
+<h2 id="titre">Options de personnalisation</h2>
+<div id="customconfig">
+    <form id="formcustom">
+        <fieldset id="dsscoretype">
+            <label for "scoretypeopt">Type de score : </label><br />
+            <input type="radio" name="scoretypeopt" value="a" checked> yahtzee<br />
+            <input type="radio" name="scoretypeopt" value="b"> yam's 
+        </fieldset>
+        <hr />
+        <fieldset id="dslines">
+            <label for "linesopt">Lignes : </label><br />
+            <input type="checkbox" name="linesopt" value="c"> min & max (max > min)<br />
+            <input type="checkbox" name="linesopt" value="d"> chance (total sans figure)<br />
+            <input type="checkbox" name="linesopt" value="e"> rigole (carré + 1 dé opposé)<br />
+        </fieldset>
+        <hr />
+        <fieldset id="dscols">
+            <label for "colsopt">Colonnes : </label><br />
+            <input type="checkbox" name="colsopt" value="f"> libre
+            <span id="freecolnb" style="display:none">
+                <label for "freecolnbopt"> nombre (1-5) : </label>
+                <input type="number" id="freecolnbopt" min="1" max"5" step="1" value="1" />
+            </span><br />
+            <input type="checkbox" name="colsopt" value="g"> descendant<br />
+            <input type="checkbox" name="colsopt" value="h"> montant<br />
+            <input type="checkbox" name="colsopt" value="i"> annoncé<br />
+            <input type="checkbox" name="colsopt" value="j"> sec<br />
+        </fieldset>
+        <hr />
+        <button type="button" id="saveconfig"><img src="img/save.png" width="32px" height="32px" title="OK"><p>Enregistrer</p></button>
+        <button type="reset" id="resetconfig"><img src="img/reset.png" width="32px" height="32px" title="Réinitialiser"><p>Réinitialiser</p></button>
+        <button type="button" id="cancelconfig"><img src="img/cancel.png" width="32px" height="32px" title="Annuler"><p>Annuler</p></button>
+    </form>
+</div>
+<div id="customconfigpanel" style="display:none"></div>
+
+<!--<script src="js/vendor/modernizr-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+<script src="js/plugins.js"></script>
+<script src="js/js.storage.min.js"></script>-->
+<script src="js/custom.js"></script>
+</body>
+</html>
